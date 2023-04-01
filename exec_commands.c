@@ -1,6 +1,7 @@
 //
 // Created by xenia on 20.03.23.
 //
+#include <dirent.h>
 #include "exec_commands.h"
 
 /**
@@ -44,14 +45,14 @@ void sb_start(char **args) {
 }
 
 /* TO-DO:
- * ls
- * cat
- * kill
  */
 
 /* DONE:
  * help
  * cd
+ * cat
+ * ls
+ * kill
  * exit
  */
 
@@ -67,13 +68,69 @@ void sb_help() {
 }
 
 void sb_cd(char **args) {
+    //Если в пеоеданной строке нет аргуметов
     if (args[1] == NULL) {
-        fprintf(stderr, "Expected a path in arguments\n");
+        printf("Expected a path in arguments\n");
     } else {
         if (chdir(args[1]) != 0) {
             perror("oops in cd");
         }
     }
+}
+
+void sb_cat(char **args){
+    //Если в переданной строке нет аргументов
+    if (args[1] == NULL) {
+        printf("Expected files in arguments\n");
+        return;
+    }
+
+    for(int i = 1; i < sizeof(args); ++i) {
+        //Открываем файл только для чтения
+        FILE  *file = fopen(args[i], "r");
+        //Если не получается открыть файл, завершаем процесс
+        if(file == NULL){
+            printf("Error: cannot open the file: %s\n", args[i]);
+            exit(EXIT_FAILURE);
+        }
+        //Посимвольно выводим содержимое файла,
+        //пока не встречаем End Of File
+        int ch;
+        while((ch = fgetc(file)) != EOF){
+            putchar(ch);
+        }
+        fclose(file);
+    }
+}
+
+void sb_ls(char **args) {
+    DIR *dir;
+    //Если в переданной строке нет аргументов,
+    //считываем текущую директорию
+    if (args[1] == NULL) {
+        dir = opendir(".");
+    } else {
+        if(args[2] != NULL)
+            printf("Opening the first directory, "
+                   "the rest of the arguments will be ignored\n");
+        dir = opendir(args[1]);
+    }
+
+    if(dir == NULL){
+        printf("Error: cannot open the directory: %s\n", args[1]);
+        exit(EXIT_FAILURE);
+    }
+
+    //Выводим названия содержимого директории
+    struct dirent *entry;
+    while((entry = readdir(dir))) {
+            printf("%s\n", entry->d_name);
+    }
+}
+
+void sb_kill(int sig){
+    printf("I got a signal %d. Press it again to stop execution\n", sig);
+    (void) signal(SIGINT, SIG_DFL);
 }
 
 void sb_exit() {

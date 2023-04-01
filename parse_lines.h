@@ -12,8 +12,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "supported_commands.h"
-
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
 

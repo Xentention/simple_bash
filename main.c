@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
 _Noreturn void sb_launch(){
     char *line;
     char **args;
+    (void) signal(SIGINT, sb_kill);
 
     while(1) {
         printf("$$$ ");
