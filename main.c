@@ -11,7 +11,7 @@ _Noreturn void sb_launch(){
     char **args;
 
     while(1) {
-        printf("$ ");
+        printf("$$$ ");
         line = read_line();
         args = split_line(line);
         execute(args);
