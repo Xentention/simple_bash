@@ -8,8 +8,7 @@
    @param args Null terminated list of arguments.
    @return 1 if the shell should continue running, 0 if it should terminate
  */
-void execute(char **args)
-{
+void execute(char **args) {
     int i;
 
     if (args[0] == NULL) {
@@ -23,7 +22,25 @@ void execute(char **args)
         }
     }
 
-    //return lsh_launch(args);
+    sb_start(args);
+}
+
+
+void sb_start(char **args) {
+    pid_t child_pid = fork();
+    switch (child_pid) {
+        case -1:
+            perror("sb: fork failed");
+            break;
+        case 0:
+            if (execvp(args[0], args) == -1)
+                perror("sb: exec failed");
+            exit(EXIT_FAILURE);
+        default:
+            while (waitpid(child_pid, (int *) 0, WNOHANG) != child_pid) {
+                //ждем завершения процесса потомка
+            }
+    }
 }
 
 /* TO-DO:
@@ -40,26 +57,25 @@ void execute(char **args)
 
 
 
-void sb_help(){
-    printf("This is a simple bash made by Xenia for my OS class.\n");
-    printf("Type program names and arguments and hit enter.\n");
-    printf("Supported commands are listed below:\n");
+void sb_help() {
+    printf("This is a simple bash made by Xenia for my OS class.\n"
+           "Type program names and arguments and hit enter.\n"
+           "Supported commands are listed below:\n");
 
-    for(int i = 0; i < sizeof(COMMANDS_INFO); i++)
+    for (int i = 0; i < sizeof(COMMANDS_INFO); i++)
         printf("    %s\n", COMMANDS_INFO[i]);
 }
 
-void sb_cd(char **args){
+void sb_cd(char **args) {
     if (args[1] == NULL) {
         fprintf(stderr, "Expected a path in arguments\n");
-    }
-    else {
+    } else {
         if (chdir(args[1]) != 0) {
             perror("oops in cd");
         }
     }
 }
 
-void sb_exit(){
+void sb_exit() {
     exit(EXIT_SUCCESS);
 }

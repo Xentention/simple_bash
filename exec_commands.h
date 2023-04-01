@@ -19,6 +19,7 @@
 void execute(char **args);
 void sb_help();
 void sb_cd(char **args);
+void sb_start(char **args);
 void sb_exit();
 
 void (*commands_funcs[]) (char **) = {
