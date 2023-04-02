@@ -1,5 +1,5 @@
 # simple_bash
-A simple shell (even though the repo is calles simple_bash) implementation for my OS class.
+A simple shell (even though the repo is called simple_bash) implementation for my OS class.
 
 ### How to:
 
