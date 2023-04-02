@@ -17,7 +17,8 @@ _Noreturn void sb_launch(){
     (void) signal(SIGINT, sb_kill);
 
     while(1) {
-        printf("$$$ ");
+        char cwd[PATH_MAX];
+        printf("%s:$$$ ", getcwd(cwd, sizeof(cwd)));
         line = read_line();
         args = split_line(line);
         execute(args);

@@ -7,6 +7,7 @@
 
 #include "parse_lines.h"
 #include "exec_commands.h"
+#include <linux/limits.h>
 
 _Noreturn void sb_launch();
 

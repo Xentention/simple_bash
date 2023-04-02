@@ -23,7 +23,8 @@ const char *COMMANDS[] = {
         "help",
         "cd",
         "cat",
-        "ls"
+        "ls",
+        "exit"
 };
 
 /**
@@ -33,7 +34,8 @@ const char *COMMANDS_INFO[] = {
         "help - information about built-in commands",
         "cd <path> - move to the directory",
         "cat <file(s)> - to read files",
-        "ls - display a list of files and sub-directories in the current directory"
+        "ls - display a list of files and sub-directories in the current directory",
+        "exit - finishes the program"
 };
 
 /**
