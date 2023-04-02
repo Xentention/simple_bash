@@ -5,15 +5,12 @@
 #ifndef SIMPLE_BASH_PARSE_LINES_H
 #define SIMPLE_BASH_PARSE_LINES_H
 
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-#define LSH_TOK_BUFSIZE 64
-#define LSH_TOK_DELIM " \t\r\n\a"
+#define SB_BUFSIZE 64
+#define SB_DELIM " \t\r\n\a"
 
 char *read_line(void);
 char **split_line(char *line);

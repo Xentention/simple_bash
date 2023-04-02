@@ -4,13 +4,17 @@
 
 #include "parse_lines.h"
 
+/**
+ * Reads a line from stdin
+ * @return the line
+ */
 char *read_line(void) {
     char *line = NULL;
-    ssize_t bufsize = 0; // have getline allocate a buffer for us
+    ssize_t bufsize = 0; //выделяем буфер getline
 
     if (getline(&line, &bufsize, stdin) == -1){
         if (feof(stdin)) {
-            exit(EXIT_SUCCESS);  // We recieved an EOF
+            exit(EXIT_SUCCESS);  //Дошли до конца файла
         } else  {
             perror("readline");
             exit(EXIT_FAILURE);
@@ -21,12 +25,12 @@ char *read_line(void) {
 }
 
 /**
-   @brief Split a line into tokens (very naively).
+   @brief Split a line into tokens.
    @param line The line.
-   @return Null-terminated array of tokens.
+   @return Null terminated array of tokens.
  */
 char **split_line(char *line) {
-    int bufsize = LSH_TOK_BUFSIZE, position = 0;
+    int bufsize = SB_BUFSIZE, position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
     char *token, **tokens_backup;
 
@@ -35,13 +39,13 @@ char **split_line(char *line) {
         exit(EXIT_FAILURE);
     }
 
-    token = strtok(line, LSH_TOK_DELIM);
+    token = strtok(line, SB_DELIM);
     while (token != NULL) {
         tokens[position] = token;
         position++;
 
         if (position >= bufsize) {
-            bufsize += LSH_TOK_BUFSIZE;
+            bufsize += SB_BUFSIZE;
             tokens_backup = tokens;
             tokens = realloc(tokens, bufsize * sizeof(char*));
             if (!tokens) {
@@ -51,7 +55,7 @@ char **split_line(char *line) {
             }
         }
 
-        token = strtok(NULL, LSH_TOK_DELIM);
+        token = strtok(NULL, SB_DELIM);
     }
     tokens[position] = NULL;
     return tokens;
