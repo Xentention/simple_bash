@@ -74,6 +74,7 @@ void sb_start(char **args) {
             perror("Error: fork failed");
             break;
         case 0:
+            (void) signal(SIGINT, SIG_DFL);
             if (execvp(args[0], args) == -1)
                 perror("Error: command execution failed");
             exit(EXIT_FAILURE);
@@ -166,15 +167,6 @@ void sb_ls(char **args) {
     while ((entry = readdir(dir))) {
         printf("%s\n", entry->d_name);
     }
-}
-
-/**
- * @brief Handles a ^C signal
- * @param sig signal
- */
-void sb_kill(int sig) {
-    printf(" I got a signal %d. Press it again to exit\n", sig);
-    (void) signal(SIGINT, SIG_DFL);
 }
 
 /**

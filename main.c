@@ -14,7 +14,7 @@ int main() {
 _Noreturn void sb_launch(){
     char *line;
     char **args;
-    (void) signal(SIGINT, sb_kill);
+    (void) signal(SIGINT, SIG_DFL);
 
     while(1) {
         char cwd[PATH_MAX];
