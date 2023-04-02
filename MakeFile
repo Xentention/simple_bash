@@ -1,0 +1,2 @@
+all:
+	gcc src/main.c src/parse_lines.c src/exec_commands.c -o sb_start
