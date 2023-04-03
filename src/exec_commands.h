@@ -19,7 +19,7 @@ void sb_help();
 void sb_cd(char **args);
 void sb_cat(char **args);
 void sb_ls(char **args);
-void sb_exit();
+void sb_kill(char **args);
 
 extern const char NUM_COMMANDS;
 extern void (*commands_funcs[]) (char **);

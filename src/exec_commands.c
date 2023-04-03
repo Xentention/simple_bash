@@ -13,7 +13,7 @@ void (*commands_funcs[])(char **) = {
         &sb_cd,
         &sb_cat,
         &sb_ls,
-        &sb_exit
+        &sb_kill
 };
 
 /**
@@ -24,7 +24,7 @@ const char *COMMANDS[] = {
         "cd",
         "cat",
         "ls",
-        "exit"
+        "kill"
 };
 
 /**
@@ -35,7 +35,7 @@ const char *COMMANDS_INFO[] = {
         "cd <path> - move to the directory",
         "cat <file(s)> - to read files",
         "ls - display a list of files and sub-directories in the current directory",
-        "exit - finishes the program"
+        "kill <pid> -  Kills a process with a received PID"
 };
 
 /**
@@ -170,8 +170,16 @@ void sb_ls(char **args) {
 }
 
 /**
- * @brief Exits
+ * @brief Kills a process with a received PID
  */
-void sb_exit() {
-    exit(EXIT_SUCCESS);
+void sb_kill(char **args) {
+    //Если в переданной строке нет аргументов
+    if (args[1] == NULL) {
+        printf("Expected PID\n");
+        return;
+    }
+    pid_t pid;
+    long long int pid_ll = strtoll(args[1], NULL, 0);
+    pid = (pid_t) pid_ll;
+    kill(pid, SIGINT);
 }
