@@ -18,6 +18,6 @@ Try out the shell:
 - cd \<non null path>
 - ls \<nullable path>
 - cat \<non null path>
-- exit
+- kill \<PID>
 - Ctrl+C signal handler (default)
 
